@@ -58,19 +58,19 @@ namespace KatlaSport.WebApi.Controllers
         }
 
         [HttpPost]
-        [Route("{hiveId:int:min(1)}")]
+        [Route("")]
         [SwaggerResponse(HttpStatusCode.Created, Description = "Creates a new hive section.")]
         [SwaggerResponse(HttpStatusCode.BadRequest)]
         [SwaggerResponse(HttpStatusCode.Conflict)]
         [SwaggerResponse(HttpStatusCode.InternalServerError)]
-        public async Task<IHttpActionResult> AddHiveSectionAsync([FromUri] int hiveId, [FromBody] UpdateHiveSectionRequest createRequest)
+        public async Task<IHttpActionResult> AddHiveSectionAsync([FromBody] UpdateHiveSectionRequest createRequest)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var hiveSection = await _hiveSectionService.CreateHiveSectionAsync(hiveId, createRequest);
+            var hiveSection = await _hiveSectionService.CreateHiveSectionAsync(createRequest);
             var location = string.Format($"/api/sections/{0}", hiveSection.Id);
             return Created<HiveSection>(location, hiveSection);
         }
